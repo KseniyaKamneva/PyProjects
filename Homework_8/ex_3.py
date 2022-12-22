@@ -5,19 +5,37 @@ Created on Wed Dec 21 13:41:50 2022
 @author: Ксения
 """
 
-class ExceptDivision:
-    def __init__(self, dividend, divisor):
-        self.dividend = dividend
-        self.divisor = divisor
 
-    @staticmethod
-    def division(dividend, divisor):
+class InvalidDivisorError(ZeroDivisionError):
+    pass
+
+
+def get_operand(name):
+    while True:
+        op = input(f"Введите {name.lower()}: ")
+        abs_op = op[1:] if op.startswith("-") else op
+
+        if abs_op.replace(".", "", 1).isdigit():
+            break
+
+        print(f"{name.title()} не является числом!")
+    return float(op)
+
+
+def divide(dividend, divisor):
+    try:
+        return dividend / divisor
+    except ZeroDivisionError:
+        raise InvalidDivisorError("Делитель не может быть нулём!")
+
+
+if __name__ == "__main__":
+    dividend, divisor = get_operand("делимое"), get_operand("делитель")
+    while True:
         try:
-            return (dividend / divisor)
-        except:
-            return ('Делить на нуль нельзя!')
-
-
-dividend = float(input('Введите делимое: '))
-divisor = float(input('Введите делитель: '))
-print(ExceptDivision.division(dividend, divisor))
+            print(divide(dividend, divisor))
+        except InvalidDivisorError as exc:
+            print(exc)
+            divisor = get_operand("делитель")
+        else:
+            break

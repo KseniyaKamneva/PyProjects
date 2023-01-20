@@ -5,9 +5,11 @@ Created on Wed Jan 18 14:20:53 2023
 @author: Ксения
 """
 
-word_1 = b'attribute'
-#word_2 = b'класс'
-#word_3 = b'функция'
-word_4 = b'type'
+words = ["b'attribute'", "b'класс'", "b'функция'", "b'type'"]
 
-print('Слова "класс" и "функция" нельзя преобразовать.')
+for word in words:
+    try:
+        word = eval(word)
+    except:
+        print(word.replace('b', ''), 'нельзя перевести в байтовый тип.')  
+  

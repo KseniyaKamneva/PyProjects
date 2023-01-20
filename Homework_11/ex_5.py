@@ -6,14 +6,15 @@ Created on Wed Jan 18 14:57:14 2023
 """
 
 import subprocess
-
+import chardet
 
 def ping(args):
     ping_res = ''
     sub_ping = subprocess.Popen(args, stdout=subprocess.PIPE)
     for line in sub_ping.stdout:
-        ping_res += line.decode('cp866')
-    print(ping_res.encode('utf-8').decode('utf-8'))
+        ping_res = chardet.detect(line)
+        line = line.decode(ping_res['encoding'])
+        print(line)
 
 args_yan = ['ping', 'yandex.ru']
 args_you = ['ping', 'youtube.com']
